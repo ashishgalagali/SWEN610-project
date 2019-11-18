@@ -1,9 +1,14 @@
 package com.webcheckers;
 
+import com.webcheckers.model.Color;
+import com.webcheckers.model.Human;
+import com.webcheckers.model.Player;
 import com.webcheckers.ui.WebServer;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -67,12 +72,21 @@ public final class Application {
     private void initialize() {
         LOG.fine("WebCheckers is initializing.");
 
+        //Testing lombok
+        Human player = new Human();
+        player.setPlayerId("testPID");
+        player.setColor(Color.WHITE);
+        player.setEmail("as@qw.in");
+        System.out.println(player.getPlayerId());
+        System.out.println(player.getColor());
+        System.out.println(player.getEmail());
+
         // configure Spark and startup the Jetty web server
         webServer.initialize();
 
         // other applications might have additional services to configure
 
-        LOG.fine("WebCheckers initialization complete.");
+        LOG.info("WebCheckers initialization complete.");
     }
 
 }
