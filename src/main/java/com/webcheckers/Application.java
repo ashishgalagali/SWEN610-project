@@ -2,13 +2,10 @@ package com.webcheckers;
 
 import com.webcheckers.model.Color;
 import com.webcheckers.model.Human;
-import com.webcheckers.model.Player;
 import com.webcheckers.ui.WebServer;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -75,10 +72,10 @@ public final class Application {
         //Testing lombok
         Human player = new Human();
         player.setPlayerId("testPID");
-        player.setColor(Color.WHITE);
+        player.setPlayerColor(Color.WHITE);
         player.setEmail("as@qw.in");
         System.out.println(player.getPlayerId());
-        System.out.println(player.getColor());
+        System.out.println(player.getPlayerColor());
         System.out.println(player.getEmail());
 
         // configure Spark and startup the Jetty web server
