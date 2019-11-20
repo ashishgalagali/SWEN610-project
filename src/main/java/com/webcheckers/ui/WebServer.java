@@ -2,8 +2,7 @@ package com.webcheckers.ui;
 
 import spark.TemplateEngine;
 
-import static spark.Spark.get;
-import static spark.Spark.staticFileLocation;
+import static spark.Spark.*;
 
 
 /**
@@ -37,6 +36,7 @@ import static spark.Spark.staticFileLocation;
  * </p>
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author kirtanasuresh
  */
 public class WebServer {
 
@@ -50,6 +50,10 @@ public class WebServer {
     public static final String HOME_URL = "/";
 
     public static final String GAME_URL = "/game";
+
+    public static final String LOGIN_URL = "/login";
+
+    public static final String REGISTER_URL = "/register";
 
     //
     // Attributes
@@ -124,6 +128,15 @@ public class WebServer {
         // Shows the Checkers game Home page.
         get(HOME_URL, new HomeController(), templateEngine);
         get(GAME_URL, new GameController(), templateEngine);
+
+        //login get post
+        get(LOGIN_URL, new GetLoginController(), templateEngine);
+        post(LOGIN_URL, new PostLoginController(), templateEngine);
+
+        //register get post
+        get(REGISTER_URL, new GetRegisterController(), templateEngine);
+        post(REGISTER_URL, new PostRegisterController(), templateEngine);
+
 
     }
 

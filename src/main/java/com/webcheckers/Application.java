@@ -22,7 +22,7 @@ public final class Application {
     //
 
     /**
-     * Entry point for the WebCheckers web application.
+     * Entry point for the WebCheckers Character.isDigit(split2[1].charAt(0))web application.
      *
      * <p>
      * It wires the application components together.  This is an example
