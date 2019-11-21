@@ -5,21 +5,20 @@ import spark.Request;
 import spark.Response;
 import spark.TemplateViewRoute;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The Web Controller for the Home page.
- *
- * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author kirtanasuresh
  */
-public class HomeController implements TemplateViewRoute {
+public class GetLoginController implements TemplateViewRoute {
 
     @Override
     public ModelAndView handle(Request request, Response response) {
         Map<String, Object> vm = new HashMap<>();
-        vm.put("title", "Welcome to Checkers Game!");
-        return new ModelAndView(vm, "home.ftl");
+        vm.put("title", "Login!");
+        return new ModelAndView(vm, "login.ftl");
     }
 
 }
