@@ -9,48 +9,56 @@ import spark.TemplateViewRoute;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static spark.Spark.halt;
 
-import java.util.regex.Pattern;
-
-public class PostRegisterController extends WebCheckersDAO implements TemplateViewRoute {
+/**
+ * @author kirtanasuresh
+ */
+public class RegisterController extends WebCheckersDAO implements TemplateViewRoute {
     private static final String VALIDATE_EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
     @Override
     public ModelAndView handle(Request request, Response response) {
-        //Prepare the VM & get username, type, & logged in status
-        Map<String, Object> vm = new HashMap<>();
-        vm.put("title", "Register");
+        if (request.requestMethod() == "GET") {
+            Map<String, Object> vm = new HashMap<>();
+            vm.put("title", "Register!");
+            return new ModelAndView(vm, "register.ftl");
+        } else {
+            //Prepare the VM & get username, type, & logged in status
+            Map<String, Object> vm = new HashMap<>();
+            vm.put("title", "Register");
 
-        //Pull in form data
-        String username = request.queryParams("username");
-        String password = request.queryParams("password");
-        String email = request.queryParams("email");
-        //removing roleid, will be set as 1 for default as only authors can register
-        String role = "1";
+            //Pull in form data
+            String username = request.queryParams("username");
+            String password = request.queryParams("password");
+            String email = request.queryParams("email");
+            //removing roleid, will be set as 1 for default as only authors can register
+            String role = "1";
 
-        if (validatePassword(password)) {
-            if (validateEmail(email)) {
-                if (!validateUsername(username)) {
-                    System.out.println(getDatastore().save(new Human(username, email, password)));
-                    response.redirect("/login");
-                    halt();
-                    return null;
+            if (validatePassword(password)) {
+                if (validateEmail(email)) {
+                    if (!validateUsername(username)) {
+                        System.out.println(getDatastore().save(new Human(username, email, password)));
+                        response.redirect("/login");
+                        halt();
+                        return null;
+                    } else {
+                        vm.put("message", "username already exists");
+                        vm.put("messageType", "error");
+                        return new ModelAndView(vm, "register.ftl");
+                    }
                 } else {
-                    vm.put("message", "username already exists");
+                    vm.put("message", "Invalid email");
                     vm.put("messageType", "error");
                     return new ModelAndView(vm, "register.ftl");
                 }
             } else {
-                vm.put("message", "Invalid email");
+                vm.put("message", "Password must be at least 4 characters");
                 vm.put("messageType", "error");
                 return new ModelAndView(vm, "register.ftl");
             }
-        } else {
-            vm.put("message", "Password must be at least 4 characters");
-            vm.put("messageType", "error");
-            return new ModelAndView(vm, "register.ftl");
         }
     }
 
