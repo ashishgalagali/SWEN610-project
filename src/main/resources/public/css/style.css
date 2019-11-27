@@ -115,6 +115,16 @@ div.error {
     font-size: 13px;
 }
 
+div.success {
+    margin: 10px 0;
+    background: #8FBC8F;
+    border: 1px solid #2E8B57;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    padding: 4px;
+    font-size: 13px;
+}
+
 div.info {
     margin: 10px 0;
     background: #FAFFE4;

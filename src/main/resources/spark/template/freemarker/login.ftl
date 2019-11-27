@@ -18,13 +18,20 @@
                 <div class="error">${message}</div><br>
                 <script data-main="js/game/index" src="js/require.js"></script>
             </#if>
+            <#if smessage??>
+                <div class="success">${smessage}</div><br>
+                <script data-main="js/game/index" src="js/require.js"></script>
+            </#if>
             <form action="/login" method="POST">
-                <input type="text" name="username" pattern="[a-zA-Z0-9-]+"
+                <input type="text" name="username" pattern="[a-zA-Z0-9-]+" placeholder="Username"
                        title="Username can only contain letters and numbers" required><br><br>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                        required>
                 <input type="submit" value="login">
             </form>
+            <div>
+                <a href="/register">Register</a>
+            </div>
         </div>
     </div>
 

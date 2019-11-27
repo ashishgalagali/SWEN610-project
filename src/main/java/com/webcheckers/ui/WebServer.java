@@ -55,6 +55,8 @@ public class WebServer {
 
     public static final String REGISTER_URL = "/register";
 
+    public static final String LOGOUT_URL = "/logout";
+
     //
     // Attributes
     //
@@ -127,7 +129,7 @@ public class WebServer {
 
         // Shows the Checkers game Home page.
         get(HOME_URL, new HomeController(), templateEngine);
-//        get(GAME_URL, new GameController(), templateEngine);
+        get(GAME_URL, new GameController(), templateEngine);
 
         //login get post
         get(LOGIN_URL, new LoginController(), templateEngine);
@@ -137,6 +139,7 @@ public class WebServer {
         get(REGISTER_URL, new RegisterController(), templateEngine);
         post(REGISTER_URL, new RegisterController(), templateEngine);
 
+        get(LOGOUT_URL, new LogoutController(), templateEngine);
 
     }
 
