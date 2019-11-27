@@ -80,14 +80,6 @@
                     <fieldset id="game-toolbar">
                         <legend>Controls</legend>
                         <div class="toolbar">
-                            <a href="#" id="backupLink" disabled=disabled
-                               title="Remove the last move with your current turn.">
-                                Backup one move
-                            </a>
-                            <a href="#" id="resetLink" disabled=disabled
-                               title="Remove all moves within your current turn.">
-                                Reset turn
-                            </a>
                             <a href="#" id="submitLink" disabled=disabled
                                title="Commit your current turn to the server.">
                                 Submit turn
@@ -106,17 +98,17 @@
                         <tbody>
                         <#list board.iterator() as row>
                             <tr data-row="${row.index}">
-                                <#list row.iterator() as space>
-                                    <td data-cell="${space.cellIdx}"
-                                            <#if space.isValid() >
-                                                class="Space"
+                                <#list row.iterator() as square>
+                                    <td data-cell="${square.cellIdx}"
+                                            <#if square.isValid() >
+                                                class="Square"
                                             </#if>
                                     >
-                                        <#if space.piece??>
+                                        <#if square.piece??>
                                             <div class="Piece"
-                                                 id="piece-${row.index}-${space.cellIdx}"
-                                                 data-type="${space.piece.type}"
-                                                 data-color="${space.piece.color}">
+                                                 id="piece-${row.index}-${square.cellIdx}"
+                                                 data-type="${square.piece.type}"
+                                                 data-color="${square.piece.color}">
                                             </div>
                                         </#if>
                                     </td>
