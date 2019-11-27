@@ -41,9 +41,12 @@ public class RegisterController extends WebCheckersDAO implements TemplateViewRo
                 if (validateEmail(email)) {
                     if (!validateUsername(username)) {
                         System.out.println(getDatastore().save(new Human(username, email, password)));
-                        response.redirect("/login");
-                        halt();
-                        return null;
+                        vm.put("smessage", "Successfully registered, please login!");
+                        vm.put("messageType", "success");
+                        return new ModelAndView(vm, "login.ftl");
+//                        response.redirect("/login");
+//                        halt();
+//                        return null;
                     } else {
                         vm.put("message", "username already exists");
                         vm.put("messageType", "error");
