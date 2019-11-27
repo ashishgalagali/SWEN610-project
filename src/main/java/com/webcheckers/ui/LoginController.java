@@ -1,6 +1,9 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.WebCheckersController;
 import com.webcheckers.dao.WebCheckersDAO;
+import com.webcheckers.helper.Tuple;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Human;
 import spark.*;
 import java.util.HashMap;
@@ -15,6 +18,11 @@ public class LoginController extends WebCheckersDAO implements TemplateViewRoute
 
     String WRONG_PASSWORD = "Incorrect Password";
     String WRONG_USERNAME = "Incorrect Username";
+    WebCheckersController webCheckersController;
+
+    public LoginController(WebCheckersController webCheckersController){
+        this.webCheckersController = webCheckersController;
+    }
 
     @Override
     public ModelAndView handle(Request request, Response response) {
@@ -36,9 +44,24 @@ public class LoginController extends WebCheckersDAO implements TemplateViewRoute
             if( human != null){
                 if (human.getPassword().equals(password)){
                     session.attribute("username", username);
-                    response.redirect("/game");
-                    halt();
-                    return null;
+
+                    Tuple t = webCheckersController.getOpponent(username);
+                    if(t != null){
+                        //TODO get existing game and player and add new player to it
+                        //TODO redirect to game
+                        response.redirect("/game");
+                        halt();
+                        return null;
+                    } else {
+                        Game newGame = new Game();
+                        newGame.setPlayerOne(human);
+                        newGame.setGameID(webCheckersController.numberOfGames);
+                        Tuple newT = new Tuple(human, newGame);
+                        webCheckersController.addUserAndGame(newT);
+                        response.redirect("/waiting");
+                        halt();
+                        return null;
+                    }
                 } else {
                     vm.put("title","Login");
                     vm.put("messageType", "error");

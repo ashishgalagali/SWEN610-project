@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.WebCheckersController;
 import spark.TemplateEngine;
 
 import static spark.Spark.*;
@@ -63,6 +64,8 @@ public class WebServer {
 
     private final TemplateEngine templateEngine;
 
+    private final WebCheckersController webCheckersController;
+
     //
     // Constructor
     //
@@ -75,6 +78,7 @@ public class WebServer {
     public WebServer(
             final TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
+        this.webCheckersController = new WebCheckersController();
     }
 
     //
