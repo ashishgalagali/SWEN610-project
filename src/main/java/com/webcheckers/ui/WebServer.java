@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.WebCheckersController;
 import spark.TemplateEngine;
 
 import static spark.Spark.*;
@@ -55,11 +56,15 @@ public class WebServer {
 
     public static final String REGISTER_URL = "/register";
 
+    public static final String LOGOUT_URL = "/logout";
+
     //
     // Attributes
     //
 
     private final TemplateEngine templateEngine;
+
+    private final WebCheckersController webCheckersController;
 
     //
     // Constructor
@@ -73,6 +78,7 @@ public class WebServer {
     public WebServer(
             final TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
+        this.webCheckersController = new WebCheckersController();
     }
 
     //
@@ -130,13 +136,14 @@ public class WebServer {
         get(GAME_URL, new GameController(), templateEngine);
 
         //login get post
-        get(LOGIN_URL, new LoginController(), templateEngine);
-        post(LOGIN_URL, new LoginController(), templateEngine);
+        get(LOGIN_URL, new LoginController(webCheckersController), templateEngine);
+        post(LOGIN_URL, new LoginController(webCheckersController), templateEngine);
 
         //register get post
         get(REGISTER_URL, new RegisterController(), templateEngine);
         post(REGISTER_URL, new RegisterController(), templateEngine);
 
+        get(LOGOUT_URL, new LogoutController(), templateEngine);
 
     }
 

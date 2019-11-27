@@ -1,5 +1,6 @@
 package com.webcheckers;
 
+import com.webcheckers.appl.WebCheckersController;
 import com.webcheckers.ui.WebServer;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -41,6 +42,8 @@ public final class Application {
 
         // inject web server into application
         final Application app = new Application(webServer);
+
+        final WebCheckersController webCheckersController = new WebCheckersController();
 
         // start the application up
         app.initialize();
