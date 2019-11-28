@@ -58,6 +58,8 @@ public class WebServer {
 
     public static final String LOGOUT_URL = "/logout";
 
+    public static final String WAITING_URL = "/waiting";
+
     //
     // Attributes
     //
@@ -144,6 +146,8 @@ public class WebServer {
         post(REGISTER_URL, new RegisterController(), templateEngine);
 
         get(LOGOUT_URL, new LogoutController(), templateEngine);
+
+        get(WAITING_URL, new WaitingController(webCheckersController), templateEngine);
 
     }
 
