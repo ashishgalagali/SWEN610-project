@@ -8,15 +8,15 @@ import java.util.List;
 @Data
 public class Row implements Iterable{
     private int index;
-    private List<Space> spaces;
+    private List<Square> squares;
 
-    public Row(int index, List<Space> spaces) {
+    public Row(int index, List<Square> squares) {
         this.index = index;
-        this.spaces = spaces;
+        this.squares = squares;
     }
 
     @Override
     public Iterator iterator() {
-        return this.spaces.iterator();
+        return this.squares.iterator();
     }
 }

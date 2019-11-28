@@ -1,8 +1,6 @@
 package com.webcheckers;
 
 import com.webcheckers.appl.WebCheckersController;
-import com.webcheckers.model.Color;
-import com.webcheckers.model.Human;
 import com.webcheckers.ui.WebServer;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -71,16 +69,6 @@ public final class Application {
 
     private void initialize() {
         LOG.fine("WebCheckers is initializing.");
-
-        //Testing lombok
-        Human player = new Human();
-        player.setPlayerId("testPID");
-        player.setPlayerColor(Color.WHITE);
-        player.setEmail("as@qw.in");
-        System.out.println(player.getPlayerId());
-        System.out.println(player.getPlayerColor());
-        System.out.println(player.getEmail());
-
         // configure Spark and startup the Jetty web server
         webServer.initialize();
 

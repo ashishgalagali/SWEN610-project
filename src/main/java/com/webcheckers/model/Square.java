@@ -3,10 +3,10 @@ package com.webcheckers.model;
 import lombok.Data;
 
 @Data
-public class Space {
+public class Square {
     private int cellIdx;
 
-    public Space(int cellIdx, boolean isValid, Piece piece) {
+    public Square(int cellIdx, boolean isValid, Piece piece) {
         this.cellIdx = cellIdx;
         this.isValid = isValid;
         this.piece = piece;
@@ -14,4 +14,5 @@ public class Space {
 
     private boolean isValid;
     private Piece piece;
+
 }

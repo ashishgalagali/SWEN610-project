@@ -136,8 +136,8 @@ public class WebServer {
         get(GAME_URL, new GameController(), templateEngine);
 
         //login get post
-        get(LOGIN_URL, new LoginController(), templateEngine);
-        post(LOGIN_URL, new LoginController(), templateEngine);
+        get(LOGIN_URL, new LoginController(webCheckersController), templateEngine);
+        post(LOGIN_URL, new LoginController(webCheckersController), templateEngine);
 
         //register get post
         get(REGISTER_URL, new RegisterController(), templateEngine);
