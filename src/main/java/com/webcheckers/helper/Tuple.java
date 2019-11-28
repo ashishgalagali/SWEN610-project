@@ -7,6 +7,6 @@ import lombok.Data;
 
 @Data @AllArgsConstructor
 public class Tuple {
-    public Human h;
-    public Game g;
+    public Human human;
+    public Game game;
 }
