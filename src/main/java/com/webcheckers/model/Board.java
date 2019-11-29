@@ -53,28 +53,28 @@ public class Board implements Iterable {
     private List<Square> getEmptyEvenSquares() {
 
         List<Square> emptyOddSquares = new ArrayList<>();
-        emptyOddSquares.add(new Square(0, true, null));
-        emptyOddSquares.add(new Square(1, false, null));
-        emptyOddSquares.add(new Square(2, true, null));
-        emptyOddSquares.add(new Square(3, false, null));
-        emptyOddSquares.add(new Square(4, true, null));
-        emptyOddSquares.add(new Square(5, false, null));
-        emptyOddSquares.add(new Square(6, true, null));
-        emptyOddSquares.add(new Square(7, false, null));
+        emptyOddSquares.add(new Square(0, false, null));
+        emptyOddSquares.add(new Square(1, true, null));
+        emptyOddSquares.add(new Square(2, false, null));
+        emptyOddSquares.add(new Square(3, true, null));
+        emptyOddSquares.add(new Square(4, false, null));
+        emptyOddSquares.add(new Square(5, true, null));
+        emptyOddSquares.add(new Square(6, false, null));
+        emptyOddSquares.add(new Square(7, true, null));
 
         return emptyOddSquares;
     }
 
     private List<Square> getEmptyOddSquares() {
         List<Square> emptyEvenSquares = new ArrayList<>();
-        emptyEvenSquares.add(new Square(0, false, null));
-        emptyEvenSquares.add(new Square(1, true, null));
-        emptyEvenSquares.add(new Square(2, false, null));
-        emptyEvenSquares.add(new Square(3, true, null));
-        emptyEvenSquares.add(new Square(4, false, null));
-        emptyEvenSquares.add(new Square(5, true, null));
-        emptyEvenSquares.add(new Square(6, false, null));
-        emptyEvenSquares.add(new Square(7, true, null));
+        emptyEvenSquares.add(new Square(0, true, null));
+        emptyEvenSquares.add(new Square(1, false, null));
+        emptyEvenSquares.add(new Square(2, true, null));
+        emptyEvenSquares.add(new Square(3, false, null));
+        emptyEvenSquares.add(new Square(4, true, null));
+        emptyEvenSquares.add(new Square(5, false, null));
+        emptyEvenSquares.add(new Square(6, true, null));
+        emptyEvenSquares.add(new Square(7, false, null));
         return emptyEvenSquares;
     }
 

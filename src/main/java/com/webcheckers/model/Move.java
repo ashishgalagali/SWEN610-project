@@ -13,4 +13,12 @@ public class Move {
         this.end = end;
     }
 
+    @Override
+    public String toString() {
+        return "Move{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
+    }
+
 }

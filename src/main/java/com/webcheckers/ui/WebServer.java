@@ -1,6 +1,5 @@
 package com.webcheckers.ui;
 
-import com.webcheckers.appl.WebCheckersController;
 import spark.TemplateEngine;
 
 import static spark.Spark.*;
@@ -48,25 +47,27 @@ public class WebServer {
     /**
      * The URL pattern to request the Home page.
      */
-    public static final String HOME_URL = "/";
+    private static final String HOME_URL = "/";
 
-    public static final String GAME_URL = "/game";
+    private static final String GAME_URL = "/game";
 
-    public static final String LOGIN_URL = "/login";
+    private static final String LOGIN_URL = "/login";
 
-    public static final String REGISTER_URL = "/register";
+    private static final String REGISTER_URL = "/register";
 
-    public static final String LOGOUT_URL = "/logout";
+    private static final String LOGOUT_URL = "/logout";
 
-    public static final String WAITING_URL = "/waiting";
+    private static final String WAITING_URL = "/waiting";
+
+    private static final String VALIDATE_MOVE = "/validateMove";
+    private static final String CHECK_TURN = "/checkTurn";
+    private static final String SUBMIT_TURN = "/submitTurn";
 
     //
     // Attributes
     //
 
     private final TemplateEngine templateEngine;
-
-    private final WebCheckersController webCheckersController;
 
     //
     // Constructor
@@ -80,7 +81,6 @@ public class WebServer {
     public WebServer(
             final TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
-        this.webCheckersController = new WebCheckersController();
     }
 
     //
@@ -138,8 +138,8 @@ public class WebServer {
         get(GAME_URL, new GameController(), templateEngine);
 
         //login get post
-        get(LOGIN_URL, new LoginController(webCheckersController), templateEngine);
-        post(LOGIN_URL, new LoginController(webCheckersController), templateEngine);
+        get(LOGIN_URL, new LoginController(), templateEngine);
+        post(LOGIN_URL, new LoginController(), templateEngine);
 
         //register get post
         get(REGISTER_URL, new RegisterController(), templateEngine);
@@ -147,7 +147,11 @@ public class WebServer {
 
         get(LOGOUT_URL, new LogoutController(), templateEngine);
 
-        get(WAITING_URL, new WaitingController(webCheckersController), templateEngine);
+        get(WAITING_URL, new WaitingController(), templateEngine);
+
+        post(VALIDATE_MOVE, new ValidateMoveController());
+        post(CHECK_TURN, new CheckTurnController());
+        post(SUBMIT_TURN, new SubmitTurnController());
 
     }
 

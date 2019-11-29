@@ -29,7 +29,7 @@ define(function (require) {
     var PENDING_CLASS = 'pending';
     var VALID_CLASS = 'valid';
     var PIECE_CLASS = 'Piece';
-    var SPACE_CLASS = 'Space';
+    var SPACE_CLASS = 'Square';
 
     var PIECE_ID = 'pieceId';
 
@@ -104,7 +104,7 @@ define(function (require) {
             if ($piece === null) throw new Error("No Piece found at: " + _pendingMove.start);
             // start the 'pending' style animations
             $piece.parent().addClass(PENDING_CLASS);
-            getSpace$(_pendingMove.end).addClass(PENDING_CLASS);
+            getSquare$(_pendingMove.end).addClass(PENDING_CLASS);
             // move the Piece on the board
             movePiece($piece, _pendingMove);
         };
@@ -115,8 +115,8 @@ define(function (require) {
          */
         this.resetPendingMove = function resetPendingMove() {
             // clear the 'pending' styles
-            getSpace$(pendingMove.start).removeClass(PENDING_CLASS);
-            getSpace$(pendingMove.end).removeClass(PENDING_CLASS);
+            getSquare$(pendingMove.start).removeClass(PENDING_CLASS);
+            getSquare$(pendingMove.end).removeClass(PENDING_CLASS);
             // move the Piece back
             undoMove(pendingMove);
             // clear the state variable
@@ -133,8 +133,8 @@ define(function (require) {
                 console.info('$activePiece', $activePiece);
             }
             // change the 'pending' to 'valid'
-            getSpace$(pendingMove.start).removeClass(PENDING_CLASS).addClass(VALID_CLASS);
-            getSpace$(pendingMove.end).removeClass(PENDING_CLASS).addClass(VALID_CLASS);
+            getSquare$(pendingMove.start).removeClass(PENDING_CLASS).addClass(VALID_CLASS);
+            getSquare$(pendingMove.end).removeClass(PENDING_CLASS).addClass(VALID_CLASS);
             // store the move on the turn list
             turn.push(pendingMove);
             // clear the state variable
@@ -153,10 +153,10 @@ define(function (require) {
             var move = turn.pop();
             undoMove(move);
             // clear 'valid' styles
-            getSpace$(move.end).removeClass(VALID_CLASS);
+            getSquare$(move.end).removeClass(VALID_CLASS);
             var isNowEmpty = turn.length === 0;
             if (isNowEmpty) {
-                getSpace$(move.start).removeClass(VALID_CLASS);
+                getSquare$(move.start).removeClass(VALID_CLASS);
             }
             //
             return isNowEmpty;
@@ -207,7 +207,9 @@ define(function (require) {
             // enter the next state
             setTimeout(function () {
                 console.info('Entering state ' + newState.getName());
+                console.info(newState)
                 newState.onEntry();
+                console.info("Executed " + newState.getName())
                 state = newState;
             }, 0); // delay entry until after the DOM updates
         };
@@ -292,7 +294,7 @@ define(function (require) {
             pieces.push(this);
         });
 
-        // initialize D-n-D listeners for Space elements
+        // initialize D-n-D listeners for Square elements
         initializeDragHandlers(this);
     }
 
@@ -333,6 +335,7 @@ define(function (require) {
     };
 
     GameView.prototype.displayMessage = function displayMessage(message) {
+        console.info("Message::: " + message)
         jQuery('#message').attr('class', message.type).html(message.text).slideDown(400);
     };
 
@@ -341,7 +344,9 @@ define(function (require) {
      */
     GameView.prototype.beep = function beep() {
         var sound = document.getElementById("audio");
-        sound.play();
+        sound.play().catch(function () {
+            console.error("Audio play error")
+        });
     }
 
     //
@@ -393,11 +398,11 @@ define(function (require) {
     }
 
     /**
-     * Move a Piece DOM element from one space to another.
+     * Move a Piece DOM element from one square to another.
      */
     function movePiece($piece, move) {
         var $fromCell = $piece.parent();
-        var $toCell = getSpace$(move.end);
+        var $toCell = getSquare$(move.end);
         // hide the DnD visual cue on destination (move 'to') cell
         $toCell.removeClass(HOVER_CLASS);
         // move the piece to the new location
@@ -410,7 +415,7 @@ define(function (require) {
     /**
      * Gets a jQuery element for a specific position.
      */
-    function getSpace$(position) {
+    function getSquare$(position) {
         var selector =
             'tr[data-row=' + position.row
             + '] td[data-cell=' + position.cell + ']';
@@ -419,16 +424,16 @@ define(function (require) {
 
     /**
      * Gets a jQuery element for the Piece as a specific position.
-     * Returns null if there is no Piece at that Space.
+     * Returns null if there is no Piece at that Square.
      */
     function getPiece$(position) {
-        var $space = getSpace$(position);
-        var $piece = $space.find('div.Piece');
+        var $square = getSquare$(position);
+        var $piece = $square.find('div.Piece');
         return $piece.length === 0 ? null : $piece;
     }
 
     /**
-     * Create a Move JSON representation from two Space DOM elements.
+     * Create a Move JSON representation from two Square DOM elements.
      */
     function makeMove($startEl, $endEl) {
         var startRow = $startEl.parent().attr('data-row');
@@ -531,7 +536,7 @@ define(function (require) {
                     handleDrop(view, event);
                 }
             },
-            // attach these handlers dynamically to all Space elements
+            // attach these handlers dynamically to all Square elements
             "td." + SPACE_CLASS);
     }
 

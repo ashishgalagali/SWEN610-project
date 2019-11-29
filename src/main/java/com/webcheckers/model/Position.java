@@ -27,4 +27,12 @@ public class Position {
     public int hashCode() {
         return Objects.hash(getRow(), getCell());
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "row=" + row +
+                ", cell=" + cell +
+                '}';
+    }
 }

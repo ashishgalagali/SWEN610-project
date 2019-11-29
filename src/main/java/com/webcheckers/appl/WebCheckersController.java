@@ -10,6 +10,13 @@ import java.util.*;
 @Data
 public class WebCheckersController {
 
+    //    Singleton class
+    public static WebCheckersController webCheckersController;
+
+    private WebCheckersController() {
+
+    }
+
     //number of games being played
     public static int numberOfGames;
     //map of username and game
@@ -23,10 +30,16 @@ public class WebCheckersController {
     //check if user's game has started. this will be set to true when the opponent gets assigned
     private Map<String, Boolean> gameStarted = new HashMap<>();
 
+    public static WebCheckersController getInstance() {
+        if (webCheckersController == null) {
+            webCheckersController = new WebCheckersController();
+        }
+        return webCheckersController;
+    }
 
-    public Tuple getOpponent(String username){
-        if(usersWaiting.isEmpty()) return null;
-        if(usersWaiting.peek().getUserName().equals(username)) return null;
+    public Tuple getOpponent(String username) {
+        if (usersWaiting.isEmpty()) return null;
+        if (usersWaiting.peek().getUserName().equals(username)) return null;
         Human h = usersWaiting.poll();
         //set to true because their games have started
         gameStarted.put(h.getUserName(), true);
@@ -34,7 +47,7 @@ public class WebCheckersController {
         return new Tuple(h, userGame.get(h.getUserName()));
     }
 
-    public void addPlayerAndGame(Tuple t){
+    public void addPlayerAndGame(Tuple t) {
         //add player to wait list
         allUsers.add(t.human);
         usersWaiting.add(t.human);
@@ -44,7 +57,7 @@ public class WebCheckersController {
         numberOfGames++;
     }
 
-    public void addPlayerToGame(Human human, int gameid){
+    public void addPlayerToGame(Human human, int gameid) {
         //add second player to the game
         Game game = allGames.get(gameid);
         game.setPlayerTwo(human);
@@ -52,12 +65,9 @@ public class WebCheckersController {
         userGame.put(human.getUserName(), game);
     }
 
-    public boolean playerHasGame(String username){
+    public boolean playerHasGame(String username) {
         return gameStarted.get(username);
     }
-
-
-
 
 
 }

@@ -40,7 +40,7 @@
                 fy="471.29514"
                 id="radialGradient3246"
                 xlink:href="#linearGradient3240"
-                gradientUnits="userSpaceOnUse"
+                gradientUnits="userSquareOnUse"
                 gradientTransform="matrix(-1.2276319,-3.7552324e-6,1.4983775e-7,-1.0055106,-588.2673,948.84016)"/>
         <radialGradient
                 cx="-264.07739"
@@ -50,7 +50,7 @@
                 fy="471.29514"
                 id="radialGradient3258"
                 xlink:href="#linearGradient3240"
-                gradientUnits="userSpaceOnUse"
+                gradientUnits="userSquareOnUse"
                 gradientTransform="matrix(-1.2276319,-3.7552324e-6,1.4983775e-7,-1.0055106,-588.2673,956.59543)"/>
         <radialGradient
                 cx="-264.07739"
@@ -60,7 +60,7 @@
                 fy="471.29514"
                 id="radialGradient3269"
                 xlink:href="#linearGradient3240"
-                gradientUnits="userSpaceOnUse"
+                gradientUnits="userSquareOnUse"
                 gradientTransform="matrix(-1.2276319,-3.7552324e-6,1.4983775e-7,-1.0055106,-588.2673,956.59543)"/>
         <radialGradient
                 cx="-264.07739"
@@ -70,7 +70,7 @@
                 fy="471.29514"
                 id="radialGradient3271"
                 xlink:href="#linearGradient3240"
-                gradientUnits="userSpaceOnUse"
+                gradientUnits="userSquareOnUse"
                 gradientTransform="matrix(-1.2276319,-3.7552324e-6,1.4983775e-7,-1.0055106,-588.2673,948.84016)"/>
     </defs>
     <g
