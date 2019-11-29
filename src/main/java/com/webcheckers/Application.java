@@ -43,8 +43,6 @@ public final class Application {
         // inject web server into application
         final Application app = new Application(webServer);
 
-        final WebCheckersController webCheckersController = new WebCheckersController();
-
         // start the application up
         app.initialize();
     }

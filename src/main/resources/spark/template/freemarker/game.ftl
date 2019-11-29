@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/game.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="#" />
+
     <script>
         window.gameState = {
             'player': {
@@ -80,11 +82,11 @@
                     <fieldset id="game-toolbar">
                         <legend>Controls</legend>
                         <div class="toolbar">
-                            <a href="#" id="submitLink" disabled=disabled
+                            <a href="#" id="submitLink" enabled=enabled
                                title="Commit your current turn to the server.">
                                 Submit turn
                             </a>
-                            <a href="#" id="resignLink" disabled=disabled
+                            <a href="#" id="resignLink" enabled=enabled
                                title="End the game by resigning.">
                                 Resign from game
                             </a>

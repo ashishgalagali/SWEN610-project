@@ -1,12 +1,14 @@
 package com.webcheckers.model;
+
 import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Data
 public class Game {
     private int gameID;
-    private boolean turn;
+    private boolean playerOneTurn;
     private Human playerOne;
     private Human playerTwo;
     private String winner;
@@ -23,10 +25,10 @@ public class Game {
 
         // true for player
         // false for opponent
-        turn = true;
+        playerOneTurn = true;
     }
 
-    public ArrayList<Human> getPlayers(){
+    public ArrayList<Human> getPlayers() {
         ArrayList<Human> players = new ArrayList<>();
         players.add(playerOne);
         players.add(playerTwo);

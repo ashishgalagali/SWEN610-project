@@ -14,4 +14,13 @@ public class Piece {
         this.color = color;
         this.pieceId = pieceId;
     }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "pieceId=" + pieceId +
+                ", type=" + type +
+                ", color=" + color +
+                '}';
+    }
 }

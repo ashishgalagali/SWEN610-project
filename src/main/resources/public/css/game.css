@@ -161,6 +161,6 @@ table#game-board td.valid {
     -webkit-user-drag: element;
 }
 
-.Space.hover {
+.Square.hover {
     background-color: rgba(255, 192, 203, 0.4);
 }
