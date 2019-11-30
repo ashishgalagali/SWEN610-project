@@ -61,7 +61,7 @@ public class WebServer {
 
     private static final String VALIDATE_MOVE = "/validateMove";
     private static final String CHECK_TURN = "/checkTurn";
-    private static final String SUBMIT_TURN = "/submitTurn";
+    public static final String SUBMIT_TURN = "/submitTurn";
 
     //
     // Attributes
