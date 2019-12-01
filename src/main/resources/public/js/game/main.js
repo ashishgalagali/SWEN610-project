@@ -1,6 +1,19 @@
 /**
  * This file contains the launch code for the Game view.
  */
+var time = 59;
+setInterval(function () {
+    var seconds = time % 60;
+    if (seconds.toString().length == 1) {
+        seconds = "0" + seconds;
+    }
+    document.getElementById("time").innerHTML = seconds;
+    time--;
+    if (time == 0) {
+        window.location.href = "/resignGame";
+    }
+}, 1000);
+
 (function () {
     // not strict to get the Game state object from the HTML response
     //'use strict';

@@ -13,7 +13,7 @@ a:hover {
 }
 
 a[disabled] {
-    color: gray;
+    /*color: gray;*/
     cursor: default;
 }
 

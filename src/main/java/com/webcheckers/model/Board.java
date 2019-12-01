@@ -11,6 +11,7 @@ public class Board implements Iterable {
     private List<Row> rows = new ArrayList<>();
     private Set<Integer> redPieceIds = new HashSet<>();
     private Set<Integer> whitePieceIds = new HashSet<>();
+    private int numOppPieceRemoved = 0;
 
 
     public Board() {

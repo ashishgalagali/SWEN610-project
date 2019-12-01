@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import spark.Route;
 import spark.TemplateEngine;
 
 import static spark.Spark.*;
@@ -62,6 +63,10 @@ public class WebServer {
     private static final String VALIDATE_MOVE = "/validateMove";
     private static final String CHECK_TURN = "/checkTurn";
     public static final String SUBMIT_TURN = "/submitTurn";
+
+    public static final String RESIGN_GAME = "/resignGame";
+
+    public static final String END_LOST = "/endLost";
 
     //
     // Attributes
@@ -153,6 +158,8 @@ public class WebServer {
         post(CHECK_TURN, new CheckTurnController());
         post(SUBMIT_TURN, new SubmitTurnController());
 
+//        get(RESIGN_GAME, new ResignGameController());
+        get(RESIGN_GAME, new ResignGameController());
     }
 
 }

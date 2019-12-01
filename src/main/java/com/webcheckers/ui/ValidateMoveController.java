@@ -21,21 +21,25 @@ public class ValidateMoveController implements Route {
             message = new Message("You have moved to the same position!!!Refresh page", MessageType.error);
             return new Gson().toJson(message, Message.class);
         }
+
         Move move = new Gson().fromJson(request.body(), Move.class);
         String userName = request.session().attribute("username");
         Game game = WebCheckersController.getInstance().getUserGame().get(userName);
-        Board board = game.getBoard();
+        if(game.isHasGameEnded()) response.redirect("/game");
 
+        Board board = game.getBoard();
         if (board.getSquarePieceIdMap().get(move.getEnd()) != null) {
             message = new Message("Square already occupied", MessageType.error);
             return new Gson().toJson(message, Message.class);
         }
+
         Piece pieceMoved = board.getRows().get(move.getStart().getRow()).getSquares().get(move.getStart().getCell()).getPiece();
         if (pieceMoved.getType().equals(PieceType.SINGLE)) {
             isValidMove = validateSingleMove(move, pieceMoved.getPieceId());
         } else {
             isValidMove = validateKingMove(move);
         }
+
 
         if (!isValidMove) {
 //            if (pieceMoved.getType().equals(PieceType.SINGLE)) {
@@ -54,6 +58,8 @@ public class ValidateMoveController implements Route {
             board.getRows().get(move.getEnd().getRow()).getSquares().get(move.getEnd().getCell()).setPiece(pieceMoved);
             board.getSquarePieceIdMap().remove(move.getStart());
             board.getSquarePieceIdMap().put(move.getEnd(), pieceMoved.getPieceId());
+            //check if all opponent peices are null
+            System.out.println(userName + "++++" + amIWinning(game, board, userName));
             message = new Message("Valid move. Hit Submit move!!!", MessageType.info);
         } else {
             message = new Message("Invalid Move!!!", MessageType.error);
@@ -194,6 +200,41 @@ public class ValidateMoveController implements Route {
         }
         System.out.println("IsvalidMove: " + isValidMove);
         return isValidMove;
+
+    }
+
+    public boolean amIWinning(Game game, Board board, String username){
+        boolean flag = true;
+        //check if opponents pieces are null
+        if(game.getPlayerOne().getUserName().equals(username)) {
+            for (Position position:
+                 board.getSquarePieceIdMap().keySet()) {
+                if(board.getSquarePieceIdMap().get(position) != null && board.getSquarePieceIdMap().get(position) < 12){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) {
+                game.setHasGameEnded(true);
+                game.setWinner(game.getPlayerOne().getUserName());
+                game.setLoser(game.getPlayerTwo().getUserName());
+            }
+            return flag;
+        } else {
+            for (Position position:
+                    board.getSquarePieceIdMap().keySet()) {
+                if(board.getSquarePieceIdMap().get(position) != null && board.getSquarePieceIdMap().get(position) >= 12){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) {
+                game.setHasGameEnded(true);
+                game.setWinner(game.getPlayerTwo().getUserName());
+                game.setLoser(game.getPlayerOne().getUserName());
+            }
+            return flag;
+        }
 
     }
 }
