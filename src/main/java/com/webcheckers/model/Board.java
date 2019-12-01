@@ -17,8 +17,6 @@ public class Board implements Iterable {
         this.rows.addAll(setInitialRows(Color.WHITE));
         this.rows.addAll(setInitialRows(Color.RED));
         this.squarePieceIdMap = initialiseMap();
-        System.out.println(this.squarePieceIdMap);
-
     }
 
     private Map<Position, Integer> initialiseMap() {
