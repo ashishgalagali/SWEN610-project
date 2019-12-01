@@ -37,6 +37,7 @@ public class ValidateMoveController implements Route {
             isValidMove = validateKingMove(move);
         }
 
+        //if opponent set is empty i win
         if (!isValidMove) {
 //            if (pieceMoved.getType().equals(PieceType.SINGLE)) {
             isValidMove = validateForwardJump(move, pieceMoved.getPieceId(), board);
@@ -54,6 +55,8 @@ public class ValidateMoveController implements Route {
             board.getRows().get(move.getEnd().getRow()).getSquares().get(move.getEnd().getCell()).setPiece(pieceMoved);
             board.getSquarePieceIdMap().remove(move.getStart());
             board.getSquarePieceIdMap().put(move.getEnd(), pieceMoved.getPieceId());
+            //check if all opponent peices are null
+            System.out.println(userName + "++++" + amIWinning(game, board, userName));
             message = new Message("Valid move. Hit Submit move!!!", MessageType.info);
         } else {
             message = new Message("Invalid Move!!!", MessageType.error);
@@ -194,6 +197,41 @@ public class ValidateMoveController implements Route {
         }
         System.out.println("IsvalidMove: " + isValidMove);
         return isValidMove;
+
+    }
+
+    public boolean amIWinning(Game game, Board board, String username){
+        boolean flag = true;
+        //check if opponents pieces are null
+        if(game.getPlayerOne().getUserName().equals(username)) {
+            for (Position position:
+                 board.getSquarePieceIdMap().keySet()) {
+                if(board.getSquarePieceIdMap().get(position) != null && board.getSquarePieceIdMap().get(position) < 12){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) {
+                game.setHasGameEnded(true);
+                game.setWinner(game.getPlayerOne().getUserName());
+                game.setLoser(game.getPlayerTwo().getUserName());
+            }
+            return flag;
+        } else {
+            for (Position position:
+                    board.getSquarePieceIdMap().keySet()) {
+                if(board.getSquarePieceIdMap().get(position) != null && board.getSquarePieceIdMap().get(position) >= 12){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) {
+                game.setHasGameEnded(true);
+                game.setWinner(game.getPlayerTwo().getUserName());
+                game.setLoser(game.getPlayerOne().getUserName());
+            }
+            return flag;
+        }
 
     }
 }

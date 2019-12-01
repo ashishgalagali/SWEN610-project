@@ -2,18 +2,14 @@ package com.webcheckers.ui;
 
 import com.webcheckers.appl.WebCheckersController;
 import com.webcheckers.model.*;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.TemplateViewRoute;
+import spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static spark.Spark.halt;
 
-public class GameController implements TemplateViewRoute {
-
+public class ResignGameController implements Route {
     @Override
     public ModelAndView handle(Request request, Response response) {
         if (request.session().attribute("username") == null) {
@@ -21,50 +17,40 @@ public class GameController implements TemplateViewRoute {
             halt();
             return null;
         }
-
         String userName = request.session().attribute("username");
-        System.out.println("UID: " + userName);
         Game game = WebCheckersController.getInstance().getUserGame().get(userName);
+        game.setHasGameEnded(true);
+        game.setLoser(userName);
+        if (game.getPlayerOne().equals(userName)) game.setWinner(game.getPlayerTwo().getUserName());
+        else game.setWinner(game.getPlayerOne().getUserName());
 
         Map<String, Object> vm = setPlayerVariables(game, userName);
-        if(game.isHasGameEnded()) {
-            vm.put("ended", true);
-            if(game.getPlayerOne().getUserName().equals(userName)) {
-                if (game.getWinner().equals(userName)) {
-                    Message message = new Message("Congratulations! You Won!", MessageType.info);
-                    vm.put("message", message);
-                    vm.put("points", game.getPlayerOne().getPoints() + 1);
-                } else {
-                    Message message = new Message("Sorry, you lost, better luck next time", MessageType.error);
-                    vm.put("message", message);
-                    vm.put("points", game.getPlayerOne().getPoints());
-                }
+        vm.put("ended", true);
+        if (game.getPlayerOne().getUserName().equals(userName)) {
+            if (game.getWinner().equals(userName)) {
+                Message message = new Message("Congratulations! You Won!", MessageType.info);
+                vm.put("message", message);
+                vm.put("points", game.getPlayerOne().getPoints() + 1);
             } else {
-                if (game.getWinner().equals(userName)) {
-                    Message message = new Message("Congratulations! You Won!", MessageType.info);
-                    vm.put("message", message);
-                    vm.put("points", game.getPlayerTwo().getPoints() + 1);
-                } else {
-                    Message message = new Message("Sorry, you lost, better luck next time", MessageType.error);
-                    vm.put("message", message);
-                    vm.put("points", game.getPlayerTwo().getPoints());
-                }
+                Message message = new Message("Sorry, you lost, better luck next time", MessageType.error);
+                vm.put("message", message);
+                vm.put("points", game.getPlayerOne().getPoints());
             }
-            //if game has not ended
         } else {
-            vm.put("ended", false);
-            Message message = new Message("All the best!!!", MessageType.info);
-            vm.put("message", message);
-            if (game.getBoard() == null) {
-                game.setBoard(new Board());
+            if (game.getWinner().equals(userName)) {
+                Message message = new Message("Congratulations! You Won!", MessageType.info);
+                vm.put("message", message);
+                vm.put("points", game.getPlayerTwo().getPoints() + 1);
+            } else {
+                Message message = new Message("Sorry, you lost, better luck next time", MessageType.error);
+                vm.put("message", message);
+                vm.put("points", game.getPlayerTwo().getPoints());
             }
-            vm.put("board", game.getBoard());
         }
-
         return new ModelAndView(vm, "game.ftl");
     }
 
-    public Map<String, Object> setPlayerVariables(Game game, String userName){
+    public Map<String, Object> setPlayerVariables(Game game, String userName) {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", game.getPlayerOne().getUserName() + " vs " + game.getPlayerTwo().getUserName());
         if (game.getPlayerOne().getUserName().equals(userName)) {
@@ -92,5 +78,4 @@ public class GameController implements TemplateViewRoute {
         }
         return vm;
     }
-
 }

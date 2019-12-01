@@ -15,6 +15,7 @@ public class Game {
     private String loser;
     private LocalDateTime dateTime = LocalDateTime.now();
     private Board board;
+    private boolean hasGameEnded;
 
     public Game() {
         this.playerOne = null;
