@@ -66,6 +66,8 @@ public class WebServer {
 
     public static final String RESIGN_GAME = "/resignGame";
 
+    public static final String END_LOST = "/endLost";
+
     //
     // Attributes
     //
@@ -157,7 +159,7 @@ public class WebServer {
         post(SUBMIT_TURN, new SubmitTurnController());
 
 //        get(RESIGN_GAME, new ResignGameController());
-        post(RESIGN_GAME, new ResignGameController());
+        get(RESIGN_GAME, new ResignGameController());
     }
 
 }

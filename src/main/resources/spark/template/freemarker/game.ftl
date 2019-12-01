@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/game.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" href="#"/>
 
     <script>
         window.gameState = {
@@ -40,6 +40,14 @@
             <div id="message" class="${message.type}">${message.text}</div>
             Your points: ${points}
         <#else>
+            <#if isMyTurn>
+                <div class="timer" onload="timer(30)">
+                    <div>Section</div>
+                    <div class="time">
+                        <strong>Time left: <span id="time">Loading...</span></strong>
+                    </div>
+                </div>
+            </#if>
             <form id="gameForm" action="/submitTurn" method="POST">
                 <p>
                     You are playing a game of checkers with ${opponentName}.
@@ -89,13 +97,12 @@
                                    title="Commit your current turn to the server.">
                                     Submit turn
                                 </a>
-                                <a href="/resignGame" id="resignLink" enabled=enabled
-                                   title="End the game by resigning.">
-                                    Resign from game
-                                </a>
                             </div>
+                            <a href="/resignGame" id="resign"
+                               title="End the game by resigning.">
+                                Resign from game
+                            </a>
                         </fieldset>
-
                     </div>
 
                     <div class="game-board">
