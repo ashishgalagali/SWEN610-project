@@ -13,6 +13,15 @@ public class ValidateMoveController implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
+        //if game has ended, tell user he's won
+        String userName = request.session().attribute("username");
+        Game game = WebCheckersController.getInstance().getUserGame().get(userName);
+        if(game.isHasGameEnded()) {
+            Message message = new Message("Your opponent has already resigned, please click submit/resign to win", MessageType.info);
+            return new Gson().toJson(message, Message.class);
+        }
+
+        //if game is on
         Message message = null;
         boolean isValidMove = false;
 
@@ -23,9 +32,7 @@ public class ValidateMoveController implements Route {
         }
 
         Move move = new Gson().fromJson(request.body(), Move.class);
-        String userName = request.session().attribute("username");
-        Game game = WebCheckersController.getInstance().getUserGame().get(userName);
-        if(game.isHasGameEnded()) response.redirect("/game");
+
 
         Board board = game.getBoard();
         if (board.getSquarePieceIdMap().get(move.getEnd()) != null) {
@@ -42,14 +49,10 @@ public class ValidateMoveController implements Route {
 
 
         if (!isValidMove) {
-//            if (pieceMoved.getType().equals(PieceType.SINGLE)) {
             isValidMove = validateForwardJump(move, pieceMoved.getPieceId(), board);
             if (!isValidMove && pieceMoved.getType().equals(PieceType.KING)) {
                 isValidMove = validateBackJump(move, pieceMoved.getPieceId(), board);
             }
-//            } else {
-//                isValidMove = validateKingJump(move, pieceMoved.getPieceId(), board);
-//            }
         }
 
         if (isValidMove) {
@@ -59,7 +62,6 @@ public class ValidateMoveController implements Route {
             board.getSquarePieceIdMap().remove(move.getStart());
             board.getSquarePieceIdMap().put(move.getEnd(), pieceMoved.getPieceId());
             //check if all opponent peices are null
-            System.out.println(userName + "++++" + amIWinning(game, board, userName));
             message = new Message("Valid move. Hit Submit move!!!", MessageType.info);
         } else {
             message = new Message("Invalid Move!!!", MessageType.error);
