@@ -41,7 +41,7 @@
             Your points: ${points}
         <#else>
             <#if isMyTurn>
-                <div class="timer" onload="timer(30)">
+                <div class="timer" onload="timer(60)">
                     <div>Section</div>
                     <div class="time">
                         <strong>Time left: <span id="time">Loading...</span></strong>

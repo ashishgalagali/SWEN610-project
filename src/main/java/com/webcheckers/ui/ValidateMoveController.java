@@ -21,15 +21,18 @@ public class ValidateMoveController implements Route {
             message = new Message("You have moved to the same position!!!Refresh page", MessageType.error);
             return new Gson().toJson(message, Message.class);
         }
+
         Move move = new Gson().fromJson(request.body(), Move.class);
         String userName = request.session().attribute("username");
         Game game = WebCheckersController.getInstance().getUserGame().get(userName);
-        Board board = game.getBoard();
+        if(game.isHasGameEnded()) response.redirect("/game");
 
+        Board board = game.getBoard();
         if (board.getSquarePieceIdMap().get(move.getEnd()) != null) {
             message = new Message("Square already occupied", MessageType.error);
             return new Gson().toJson(message, Message.class);
         }
+
         Piece pieceMoved = board.getRows().get(move.getStart().getRow()).getSquares().get(move.getStart().getCell()).getPiece();
         if (pieceMoved.getType().equals(PieceType.SINGLE)) {
             isValidMove = validateSingleMove(move, pieceMoved.getPieceId());
@@ -37,7 +40,7 @@ public class ValidateMoveController implements Route {
             isValidMove = validateKingMove(move);
         }
 
-        //if opponent set is empty i win
+
         if (!isValidMove) {
 //            if (pieceMoved.getType().equals(PieceType.SINGLE)) {
             isValidMove = validateForwardJump(move, pieceMoved.getPieceId(), board);

@@ -1,7 +1,7 @@
 /**
  * This file contains the launch code for the Game view.
  */
-var time = 30;
+var time = 59;
 setInterval(function () {
     var seconds = time % 60;
     if (seconds.toString().length == 1) {
