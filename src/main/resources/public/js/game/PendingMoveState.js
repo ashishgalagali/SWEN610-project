@@ -54,8 +54,9 @@ define(function (require) {
                 view.resetPendingMove();
                 view.setState(view.isTurnActive() ? GameConstants.STABLE_TURN : GameConstants.EMPTY_TURN);
             } else {
-                view.addPendingMove();
+                view.addPendingMove()
                 view.setState(GameConstants.STABLE_TURN);
+                view.disableAllMyPieces();
             }
         }
 

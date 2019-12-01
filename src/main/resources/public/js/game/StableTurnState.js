@@ -44,7 +44,7 @@ define(function (require) {
         // enable all UI controls
         this.getView().enableAllControls();
         // re-enable active Piece
-        this.getView().enableActivePiece();
+        this.getView().disableAllMyPieces();
     }
 
     /**

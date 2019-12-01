@@ -280,7 +280,8 @@ define(function (require) {
         function undoMove(move) {
             var $piece = getPiece$(move.end);
             if ($piece === null) {
-                throw new Error("No Piece found at: " + move.end);
+                var $piece = getPiece$(move.start);
+                //throw new Error("No Piece found at: " + move.end);
             }
             movePiece($piece, reverseMove(move));
         }

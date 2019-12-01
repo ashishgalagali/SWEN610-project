@@ -38,14 +38,18 @@ public class ValidateMoveController implements Route {
         }
 
         if (!isValidMove) {
-            if (pieceMoved.getType().equals(PieceType.SINGLE)) {
-                isValidMove = validateSingleJump(move, pieceMoved.getPieceId(), board.getSquarePieceIdMap());
-            } else {
-                isValidMove = validateKingMove(move);
+//            if (pieceMoved.getType().equals(PieceType.SINGLE)) {
+            isValidMove = validateForwardJump(move, pieceMoved.getPieceId(), board);
+            if (!isValidMove && pieceMoved.getType().equals(PieceType.KING)) {
+                isValidMove = validateBackJump(move, pieceMoved.getPieceId(), board);
             }
+//            } else {
+//                isValidMove = validateKingJump(move, pieceMoved.getPieceId(), board);
+//            }
         }
 
         if (isValidMove) {
+            checkIfPieceMovedBecameKing(move.getEnd().getRow(), pieceMoved);
             board.getRows().get(move.getStart().getRow()).getSquares().get(move.getStart().getCell()).setPiece(null);
             board.getRows().get(move.getEnd().getRow()).getSquares().get(move.getEnd().getCell()).setPiece(pieceMoved);
             board.getSquarePieceIdMap().remove(move.getStart());
@@ -57,10 +61,69 @@ public class ValidateMoveController implements Route {
         return new Gson().toJson(message, Message.class);
     }
 
-    private boolean validateSingleJump(Move move, int pieceId, Map<Position, Integer> squarePieceIdMap) {
+    private boolean validateBackJump(Move move, int pieceId, Board board) {
         boolean isValidMove = false;
         Position st = move.getStart();
         Position end = move.getEnd();
+        Map<Position, Integer> squarePieceIdMap = board.getSquarePieceIdMap();
+        if (pieceId >= 12) {
+            if (end.getRow() == st.getRow() + 2) {
+                if (end.getCell() == st.getCell() + 2) {
+                    Position oppPos = new Position(st.getRow() + 1, st.getCell() + 1);
+                    Integer oppPieceId = squarePieceIdMap.get(oppPos);
+                    if (oppPieceId != null && oppPieceId < 12) {
+                        isValidMove = true;
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() + 1).getSquares().get(st.getCell() + 1).setPiece(null);
+
+                    }
+                } else if (end.getCell() == st.getCell() - 2) {
+                    Position oppPos = new Position(st.getRow() + 1, st.getCell() - 1);
+                    Integer oppPieceId = squarePieceIdMap.get(oppPos);
+                    if (oppPieceId != null && oppPieceId < 12) {
+                        isValidMove = true;
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() + 1).getSquares().get(st.getCell() - 1).setPiece(null);
+                    }
+                }
+            }
+        } else {
+            if (end.getRow() == st.getRow() - 2) {
+                if (end.getCell() == st.getCell() + 2) {
+                    Position oppPos = new Position(st.getRow() - 1, st.getCell() + 1);
+                    Integer oppPieceId = squarePieceIdMap.get(oppPos);
+                    if (oppPieceId != null && oppPieceId >= 12) {
+                        isValidMove = true;
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() - 1).getSquares().get(st.getCell() + 1).setPiece(null);
+                    }
+                } else if (end.getCell() == st.getCell() - 2) {
+                    Position oppPos = new Position(st.getRow() - 1, st.getCell() - 1);
+                    Integer oppPieceId = squarePieceIdMap.get(oppPos);
+                    if (oppPieceId != null && oppPieceId >= 12) {
+                        isValidMove = true;
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() - 1).getSquares().get(st.getCell() - 1).setPiece(null);
+                    }
+                }
+            }
+        }
+        return isValidMove;
+
+    }
+
+
+    private void checkIfPieceMovedBecameKing(int endRow, Piece pieceMoved) {
+        if (endRow == 0 || endRow == 7) {
+            pieceMoved.setType(PieceType.KING);
+        }
+    }
+
+    private boolean validateForwardJump(Move move, int pieceId, Board board) {
+        boolean isValidMove = false;
+        Position st = move.getStart();
+        Position end = move.getEnd();
+        Map<Position, Integer> squarePieceIdMap = board.getSquarePieceIdMap();
         if (pieceId < 12) {
             if (end.getRow() == st.getRow() + 2) {
                 if (end.getCell() == st.getCell() + 2) {
@@ -68,27 +131,37 @@ public class ValidateMoveController implements Route {
                     Integer oppPieceId = squarePieceIdMap.get(oppPos);
                     if (oppPieceId != null && oppPieceId >= 12) {
                         isValidMove = true;
-
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() + 1).getSquares().get(st.getCell() + 1).setPiece(null);
 
                     }
                 } else if (end.getCell() == st.getCell() - 2) {
-                    Integer oppPieceId = squarePieceIdMap.get(new Position(st.getRow() + 1, st.getCell() - 1));
+                    Position oppPos = new Position(st.getRow() + 1, st.getCell() - 1);
+                    Integer oppPieceId = squarePieceIdMap.get(oppPos);
                     if (oppPieceId != null && oppPieceId >= 12) {
                         isValidMove = true;
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() + 1).getSquares().get(st.getCell() - 1).setPiece(null);
                     }
                 }
             }
         } else {
             if (end.getRow() == st.getRow() - 2) {
                 if (end.getCell() == st.getCell() + 2) {
-                    Integer oppPieceId = squarePieceIdMap.get(new Position(st.getRow() - 1, st.getCell() + 1));
+                    Position oppPos = new Position(st.getRow() - 1, st.getCell() + 1);
+                    Integer oppPieceId = squarePieceIdMap.get(oppPos);
                     if (oppPieceId != null && oppPieceId < 12) {
                         isValidMove = true;
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() - 1).getSquares().get(st.getCell() + 1).setPiece(null);
                     }
                 } else if (end.getCell() == st.getCell() - 2) {
-                    Integer oppPieceId = squarePieceIdMap.get(new Position(st.getRow() - 1, st.getCell() - 1));
+                    Position oppPos = new Position(st.getRow() - 1, st.getCell() - 1);
+                    Integer oppPieceId = squarePieceIdMap.get(oppPos);
                     if (oppPieceId != null && oppPieceId < 12) {
                         isValidMove = true;
+                        squarePieceIdMap.put(oppPos, null);
+                        board.getRows().get(st.getRow() - 1).getSquares().get(st.getCell() - 1).setPiece(null);
                     }
                 }
             }
