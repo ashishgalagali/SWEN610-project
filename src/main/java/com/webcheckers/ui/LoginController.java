@@ -45,7 +45,6 @@ public class LoginController extends WebCheckersDAO implements TemplateViewRoute
                     Tuple t = webCheckersController.getOpponent(username);
                     if (t != null) {
                         webCheckersController.addPlayerToGame(human, t.game.getGameID());
-                        System.out.println();
                         response.redirect("/game");
                         halt();
                         return null;
