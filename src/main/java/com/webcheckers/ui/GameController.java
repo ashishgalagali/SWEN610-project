@@ -23,7 +23,6 @@ public class GameController implements TemplateViewRoute {
         }
 
         String userName = request.session().attribute("username");
-        System.out.println("UID: " + userName);
         Game game = WebCheckersController.getInstance().getUserGame().get(userName);
 
         Map<String, Object> vm = setPlayerVariables(game, userName);

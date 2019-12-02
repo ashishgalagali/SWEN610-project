@@ -200,7 +200,6 @@ public class ValidateMoveController implements Route {
                 isValidMove = true;
             }
         }
-        System.out.println("IsvalidMove: " + isValidMove);
         return isValidMove;
 
     }

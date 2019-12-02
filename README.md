@@ -5,9 +5,11 @@ microframework.
 
 ## Team
 
-- Jane Doe
+- Ashish Jagadev Galagali
 
-- John Doe
+- Kirtana Suresh
+
+- Vaibhavi Raut
 
 
 ##Prerequisites
@@ -25,7 +27,9 @@ microframework.
 
 3. Open in your browser `http://localhost:4567/`
 
-4. Start a game and begin playing.
+4. Register/Login
+
+4. Start a game and begin playing. (To test multiplayer, login with an another account in an incognito browser)
 
 
 ##License
