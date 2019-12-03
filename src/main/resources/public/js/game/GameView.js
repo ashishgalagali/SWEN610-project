@@ -16,6 +16,7 @@ define(function (require) {
     var StableTurnState = require('StableTurnState');
     var WaitForTurnState = require('WaitForTurnState');
     var CheckMyTurnState = require('CheckMyTurnState');
+    var MultipleJumpState = require('MultipleJumpState');
 
     //
     // Constants
@@ -54,6 +55,7 @@ define(function (require) {
         stateMap[GameConstants.STABLE_TURN] = new StableTurnState(this);
         stateMap[GameConstants.WAIT_FOR_MY_TURN] = new WaitForTurnState(this);
         stateMap[GameConstants.CHECK_MY_TURN] = new CheckMyTurnState(this);
+        stateMap[GameConstants.MULTIPLE_JUMP_STATE] = new MultipleJumpState(this);
 
         // Domain methods
 
@@ -201,6 +203,7 @@ define(function (require) {
 
         this.setState = function setState(stateName) {
             // find the state and check if this is a change
+            console.info("STATE: " + stateName);
             var newState = findState(stateName);
             if (state === newState) return;
             // exit the current state (if known)

@@ -8,6 +8,7 @@ import java.util.*;
 public class Board implements Iterable {
     private int boardId;
     private Map<Position, Integer> squarePieceIdMap;
+    private Set<Integer> kingPieces = new HashSet<>();
     private List<Row> rows = new ArrayList<>();
     private Set<Integer> redPieceIds = new HashSet<>();
     private Set<Integer> whitePieceIds = new HashSet<>();

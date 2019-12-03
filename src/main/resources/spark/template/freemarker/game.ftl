@@ -53,7 +53,7 @@
                     You are playing a game of checkers with ${opponentName}.
                     <#if isMyTurn>
                         It's your turn.  Move your piece and click the Submit link.
-                        If you want to erase your move click the Reset link.
+
                     <#else>
                         It's ${opponentName}'s turn.  The page will refresh periodically
                         and you will be informed when it is your turn.
