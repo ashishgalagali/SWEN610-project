@@ -53,10 +53,16 @@ define(function (require) {
             if (message.type === 'error') {
                 view.resetPendingMove();
                 view.setState(view.isTurnActive() ? GameConstants.STABLE_TURN : GameConstants.EMPTY_TURN);
-            } else {
+            } else if (message.type === 'info') {
                 view.addPendingMove()
                 view.setState(GameConstants.STABLE_TURN);
                 view.disableAllMyPieces();
+            } else (message.type === 'jump')
+            {
+                view.addPendingMove()
+                view.setState(GameConstants.MULTIPLE_JUMP_STATE);
+                view.disableAllMyPieces();
+                view.enableActivePiece()
             }
         }
 

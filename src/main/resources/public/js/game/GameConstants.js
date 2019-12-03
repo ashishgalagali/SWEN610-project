@@ -11,6 +11,7 @@ define(function () {
     return {
         START_STATE: 'START_STATE',
         EMPTY_TURN: 'EMPTY_TURN',
+        MULTIPLE_JUMP_STATE: 'MULTIPLE_JUMP_STATE',
         PENDING_MOVE: 'PENDING_MOVE',
         STABLE_TURN: 'STABLE_TURN',
         WAIT_FOR_MY_TURN: 'WAIT_FOR_MY_TURN',
