@@ -16,6 +16,7 @@ public class Game {
     private LocalDateTime dateTime = LocalDateTime.now();
     private Board board;
     private boolean hasGameEnded;
+    private boolean isEasy = true;
 
     public Game() {
         this.playerOne = null;

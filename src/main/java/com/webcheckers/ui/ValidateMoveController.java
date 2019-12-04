@@ -71,7 +71,7 @@ public class ValidateMoveController implements Route {
             board.getSquarePieceIdMap().put(move.getEnd(), pieceMoved.getPieceId());
             //check if all opponent peices are null
             amIWinning(game, board, userName);
-            if (isJump && isJumpAvailable(move.getEnd(), pieceMoved, board.getSquarePieceIdMap(), pieceMoved.getType().equals(PieceType.KING))) {
+            if (game.isEasy() && isJump && isJumpAvailable(move.getEnd(), pieceMoved, board.getSquarePieceIdMap(), pieceMoved.getType().equals(PieceType.KING))) {
                 message = new Message("Valid move. You still have opponent piece to conquer", MessageType.jump);
             } else {
                 message = new Message("Valid move. Hit Submit move!!!", MessageType.info);

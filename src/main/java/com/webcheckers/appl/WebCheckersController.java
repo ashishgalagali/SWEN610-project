@@ -22,6 +22,7 @@ public class WebCheckersController {
     //map of username and game
     private Map<String, Game> userGame = new HashMap<>();
     //users waiting for game {will not be more than one}
+    private Queue<Human> hardUsersWaiting = new LinkedList<>();
     private Queue<Human> usersWaiting = new LinkedList<>();
     //map of game wrt gameid
     private Map<Integer, Game> allGames = new HashMap();
@@ -37,10 +38,18 @@ public class WebCheckersController {
         return webCheckersController;
     }
 
-    public Tuple getOpponent(String username) {
-        if (usersWaiting.isEmpty()) return null;
-        if (usersWaiting.peek().getUserName().equals(username)) return null;
-        Human h = usersWaiting.poll();
+    public Tuple getOpponent(String username, boolean isEasy) {
+        Human h;
+        if (isEasy) {
+            if (usersWaiting.isEmpty()) return null;
+            if (usersWaiting.peek().getUserName().equals(username)) return null;
+            h = usersWaiting.poll();
+        } else {
+            if (hardUsersWaiting.isEmpty()) return null;
+            if (hardUsersWaiting.peek().getUserName().equals(username)) return null;
+            h = hardUsersWaiting.poll();
+        }
+//        Human h = usersWaiting.poll();
         //set to true because their games have started
         gameStarted.put(h.getUserName(), true);
         gameStarted.put(username, true);
@@ -50,7 +59,11 @@ public class WebCheckersController {
     public void addPlayerAndGame(Tuple t) {
         //add player to wait list
         allUsers.add(t.human);
-        usersWaiting.add(t.human);
+        if (t.game.isEasy()) {
+            usersWaiting.add(t.human);
+        } else {
+            hardUsersWaiting.add(t.human);
+        }
         gameStarted.put(t.human.getUserName(), false);
         userGame.put(t.human.getUserName(), t.game);
         allGames.put(t.game.getGameID(), t.game);

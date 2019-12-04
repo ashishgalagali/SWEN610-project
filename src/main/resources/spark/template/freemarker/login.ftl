@@ -27,7 +27,17 @@
                        title="Username can only contain letters and numbers" required><br><br>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                        required>
+                <br/>
+                <br/>
+                <select name="level">
+                    <option value="easy">Easy</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <br/>
+                <br/>
                 <input type="submit" value="login">
+                <br/>
+                <br/>
             </form>
             <div>
                 <a href="/register">Register</a>
