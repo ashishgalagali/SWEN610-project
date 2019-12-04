@@ -36,13 +36,14 @@ public class LoginController extends WebCheckersDAO implements TemplateViewRoute
 
             String username = request.queryParams("username");
             String password = request.queryParams("password");
+            boolean isEasy = request.queryParams("level").equals("easy");
 
             Human human = getDatastore().get(Human.class, username);
 
             if (human != null) {
                 if (human.getPassword().equals(password)) {
                     session.attribute("username", username);
-                    Tuple t = webCheckersController.getOpponent(username);
+                    Tuple t = webCheckersController.getOpponent(username, isEasy);
                     if (t != null) {
                         webCheckersController.addPlayerToGame(human, t.game.getGameID());
                         response.redirect("/game");
@@ -52,6 +53,7 @@ public class LoginController extends WebCheckersDAO implements TemplateViewRoute
                         Game newGame = new Game();
                         newGame.setPlayerOne(human);
                         newGame.setGameID(webCheckersController.numberOfGames);
+                        newGame.setEasy(isEasy);
                         Tuple newT = new Tuple(human, newGame);
                         webCheckersController.addPlayerAndGame(newT);
                         vm.put("title", "Waiting");
